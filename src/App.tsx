@@ -2,6 +2,8 @@ import {AppFooter, AppHeader} from "@/components/common";
 import {ThemeProvider} from "./components/theme-provider";
 import {AppSidebar} from "@/components/common/AppSidebar.tsx";
 import {SkeletonHotTopic, SkeletonNewTopic} from "@/components/skeleton";
+import {Button} from "@/components";
+import {PencilLine} from "lucide-react";
 
 function App() {
     return (
@@ -9,6 +11,12 @@ function App() {
             <div className="page">
                 <AppHeader/>
                 <div className="container">
+                    {/* 새글 작성 버튼 */}
+                    <div className="fixed bottom-10 right-1/2 z-20 items-center translate-x-1/2 cursor-pointer text-green-600">
+                        <Button variant="destructive" className="!py-5 !px-6 rounded-full">
+                            <PencilLine/>
+                            나만의 토픽 작성</Button>
+                    </div>
                     <main className="h-full w-full min-h-[720px] flex p-6 gap-6">
                         {/* 카테고리 사이드바 */}
                         <AppSidebar/>

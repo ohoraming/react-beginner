@@ -3,7 +3,7 @@ import {AtSign, TvMinimalPlay} from "lucide-react";
 
 function AppFooter() {
     return (
-        <footer className="w-full flex flex-col justify-center items-center">
+        <footer className="w-full flex flex-col justify-center items-center bg-gray-900">
             <div className="w-full max-w-[1328px] flex flex-col gap-6 p-6 pb-18">
                 <div className="w-full flex justify-between items-start gap-4">
                     <div className="flex flex-col items-start">
