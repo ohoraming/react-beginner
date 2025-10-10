@@ -9,8 +9,8 @@ function Index() {
     return (
         <main className="w-full h-full min-h-[1024px] flex gap-6 p-6">
             {/* 새글 작성 버튼 */}
-            <div className="fixed bottom-10 right-1/2 z-20 items-center translate-x-1/2 cursor-pointer">
-                <Button variant="destructive" className="!py-5 !px-6 rounded-full" onClick={()=>navigate("/topics/create")}>
+            <div className="fixed bottom-10 right-1/2 z-20 items-center translate-x-1/2">
+                <Button variant="destructive" className="!py-5 !px-6 rounded-full cursor-pointer" onClick={()=>navigate("/topics/create")}>
                     <PencilLine/>
                     나만의 토픽 작성
                 </Button>

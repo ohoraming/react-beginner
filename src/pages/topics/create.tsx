@@ -10,13 +10,13 @@ export default function CreateTopic() {
         <main className="w-full h-full min-h-[1024px] flex gap-6 p-6">
             {/* 하단 버튼 */}
             <div className="fixed right-1/2 bottom-10 translate-x-1/2 z-20 flex items-center gap-2">
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="cursor-pointer">
                     <ArrowLeft/>
                 </Button>
-                <Button variant="outline" className="w-22 !bg-yellow-800/50">
+                <Button variant="outline" className="w-22 !bg-yellow-800/50 cursor-pointer">
                     <Save/>저장
                 </Button>
-                <Button variant="outline" className="w-22 !bg-emerald-800/50">
+                <Button variant="outline" className="w-22 !bg-emerald-800/50 cursor-pointer">
                     <BookOpenCheck/>발행
                 </Button>
             </div>
