@@ -1,7 +1,7 @@
 import {AppFooter, AppHeader} from "@/components/common";
 import {Outlet} from "react-router";
 
-function RootLayout() {
+export default function RootLayout() {
     return (
         <div className="page">
             <AppHeader/>
@@ -12,5 +12,3 @@ function RootLayout() {
         </div>
     );
 }
-
-export { RootLayout };
