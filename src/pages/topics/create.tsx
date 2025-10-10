@@ -7,7 +7,7 @@ import {TOPIC_CATEGORY} from "@/constants/category.constant.tsx";
 
 export default function CreateTopic() {
     return (
-        <main className="w-full h-full min-h-[1024px] flex gap-6 p-6q">
+        <main className="w-full h-full min-h-[1024px] flex gap-6 p-6">
             {/* 하단 버튼 */}
             <div className="fixed right-1/2 bottom-10 translate-x-1/2 z-20 flex items-center gap-2">
                 <Button variant="outline" size="icon">
