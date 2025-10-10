@@ -1,8 +1,7 @@
 import {Separator} from "@/components";
-import {useNavigate} from "react-router";
+import {NavLink} from "react-router";
 
 function AppHeader() {
-    const navigate = useNavigate();
     return (
         <header className="fixed top-0 z-10 w-full flex items-center justify-center bg-gray-900">
             <div className="w-full max-w-[1320px] flex items-center justify-between px-6 py-3">
@@ -16,7 +15,7 @@ function AppHeader() {
                     </div>
                 </div>
                 {/* 로그인 UI */}
-                <div className="font-semibold text-muted-foreground hover:text-white transition-all duration-500 cursor-pointer" onClick={()=>navigate("sign-in")}>로그인</div>
+                <NavLink to="/sign-in">로그인</NavLink>
             </div>
         </header>
     );
