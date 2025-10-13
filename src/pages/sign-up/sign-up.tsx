@@ -7,7 +7,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-    Input,
+    Input, Label,
     Separator
 } from "@/components";
 import {ArrowLeft, Asterisk, ChevronRight} from "lucide-react";
@@ -15,6 +15,7 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import {useForm} from "react-hook-form"
 import {z} from "zod"
 import {NavLink} from "react-router";
+import {useState} from "react";
 
 const formSchema = z.object({
     email: z.email({
@@ -26,7 +27,7 @@ const formSchema = z.object({
     confirmPassword: z.string().min(8, {
         error: "비밀번호 확인을 입력해주세요.",
     }),
-}).superRefine(({password,confirmPassword}, ctx)=>{
+}).superRefine(({password, confirmPassword}, ctx) => {
     if (password !== confirmPassword) {
         ctx.addIssue({
             code: "custom",
@@ -34,8 +35,7 @@ const formSchema = z.object({
             path: ["confirmPassword"],
         });
     }
-
-})
+});
 
 export default function SignUp() {
 
@@ -46,20 +46,24 @@ export default function SignUp() {
             email: "",
             password: "",
             confirmPassword: "",
-            termsOfService: false,
-            privacyPolicy: false,
-            marketingConsent: false,
         },
     });
+    const [serviceAgreed, setServiceAgreed] = useState<boolean>(false); // 서비스 이용약관 동의 여부
+    const [privacyAgreed, setPrivacyAgreed] = useState<boolean>(false); // 개인정보 수집 및 이용약관 동의 여부
+    const [marketingAgreed, setMarketingAgreed] = useState<boolean>(false); // 마케팅 및 광고 수신약관 동의 여부
+
+    const handleCheckService = () => setServiceAgreed(!serviceAgreed);
+    const handleCheckPrivacy = () => setPrivacyAgreed(!privacyAgreed);
+    const handleCheckMarketing = () => setMarketingAgreed(!marketingAgreed);
+
 
     const onSubmit = () => {
         console.log("회원가입 버튼 클릭!");
     };
 
-    // https://youtu.be/W_4QikL5ej0?si=u9dJxk7t98Y3FK2v&t=676
     return (
         <main className="h-full w-full min-h-[720px] flex justify-center items-center p-6 gap-6">
-            <div className="flex flex-col gap-4 w-100">
+            <div className="flex flex-col gap-2 w-100">
                 <div className="pb-4">
                     <p className="text-2xl font-semibold">회원가입</p>
                     <p className="text-muted-foreground">회원가입을 위한 정보를 입력해주세요.</p>
@@ -118,78 +122,45 @@ export default function SignUp() {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2">
                                 <Asterisk size={14} className="font-semibold text-red-400"/>
-                                <span>필수 동의 항목</span>
+                                <Label>필수 동의 항목</Label>
                             </div>
-                            <FormField
-                                control={form.control}
-                                name="termsOfService"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <div className="flex justify-between">
-                                            <div className="flex gap-2">
-                                                <FormControl>
-                                                    <Checkbox id="termsOfService" checked={field.value} />
-                                                </FormControl>
-                                                <FormLabel>서비스 이용약관 동의</FormLabel>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <span className="text-xs hover:underline cursor-pointer">자세히</span>
-                                                <ChevronRight className="size-4" />
-                                            </div>
-                                        </div>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="privacyPolicy"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <div className="flex justify-between">
-                                            <div className="flex gap-2">
-                                                <FormControl>
-                                                    <Checkbox id="privacyPolicy" checked={field.value} />
-                                                </FormControl>
-                                                <FormLabel>개인정보 수집 및 이용동의</FormLabel>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <span className="text-xs hover:underline cursor-pointer">자세히</span>
-                                                <ChevronRight className="size-4" />
-                                            </div>
-                                        </div>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            <div className="flex justify-between items-center">
+                                <div className="flex gap-2">
+                                    <Checkbox checked={serviceAgreed} onCheckedChange={handleCheckService} />
+                                    <Label>서비스 이용약관 동의</Label>
+                                </div>
+                                <Button variant="link" className="cursor-pointer !p-0 text-xs">
+                                    <p>자세히</p>
+                                    <ChevronRight className="size-4" />
+                                </Button>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <div className="flex gap-2">
+                                    <Checkbox checked={privacyAgreed} onCheckedChange={handleCheckPrivacy} />
+                                    <Label>개인정보 수집 및 이용동의</Label>
+                                </div>
+                                <Button variant="link" className="cursor-pointer !p-0 text-xs">
+                                    <p>자세히</p>
+                                    <ChevronRight className="size-4" />
+                                </Button>
+                            </div>
                         </div>
                         <Separator className="space-y-2"/>
-                        <div className="flex flex-col gap-3">
-                            <p>선택 동의 항목</p>
-                            <FormField
-                                control={form.control}
-                                name="marketingConsent"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <div className="flex justify-between">
-                                            <div className="flex gap-2">
-                                                <FormControl>
-                                                    <Checkbox id="marketingConsent" checked={field.value} />
-                                                </FormControl>
-                                                <FormLabel>마케팅 및 광고 수신 동의</FormLabel>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <span className="text-xs hover:underline cursor-pointer">자세히</span>
-                                                <ChevronRight className="size-4" />
-                                            </div>
-                                        </div>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        <div className="flex flex-col gap-2">
+                            <Label>선택 동의 항목</Label>
+                            <div className="flex justify-between items-center">
+                                <div className="flex gap-2">
+                                    <Checkbox checked={marketingAgreed} onCheckedChange={handleCheckMarketing} />
+                                    <Label>마케팅 및 광고 수신 동의</Label>
+                                </div>
+                                <Button variant="link" className="cursor-pointer !p-0 text-xs">
+                                    <p>자세히</p>
+                                    <ChevronRight className="size-4" />
+                                </Button>
+                            </div>
                         </div>
                         <div className="flex gap-2">
                             <Button variant="outline" size="icon" className="cursor-pointer">
