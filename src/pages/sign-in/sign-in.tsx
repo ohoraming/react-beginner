@@ -37,7 +37,6 @@ export default function SignIn() {
         console.log("로그인 버튼 클릭!");
     };
 
-
     return (
         <main className="h-full w-full min-h-[720px] flex justify-center items-center p-6 gap-6">
             <div className="flex flex-col gap-4 w-100">
