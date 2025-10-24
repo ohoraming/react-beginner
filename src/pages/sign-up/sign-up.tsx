@@ -16,6 +16,7 @@ import {useForm} from "react-hook-form"
 import {z} from "zod"
 import {NavLink} from "react-router";
 import {useState} from "react";
+import supabase from "@/lib/supabase.ts";
 
 const formSchema = z.object({
     email: z.email({
@@ -57,8 +58,30 @@ export default function SignUp() {
     const handleCheckMarketing = () => setMarketingAgreed(!marketingAgreed);
 
 
-    const onSubmit = () => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log("회원가입 버튼 클릭!");
+
+        if (!serviceAgreed || !privacyAgreed) {
+            // 경고메시지 - toast ui
+            return;
+        }
+
+        const {data, error} = await supabase.auth.signUp({
+            email: values.email,
+            password: values.password,
+        });
+
+        // 회원가입 실패
+        if (error) {
+            // 에러메시지 - toast ui
+            return;
+        }
+
+        // 회원가입 성공
+        if (data) {
+            // 성공메시지 - toast ui
+            // 로그인 페이지로 리다이렉트
+        }
     };
 
     return (
