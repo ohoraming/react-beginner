@@ -36,3 +36,4 @@ export {
     SheetTitle,
     SheetDescription,
 } from "./ui/sheet"
+export { Toaster } from "./ui/sonner.tsx"

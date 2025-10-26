@@ -8,6 +8,7 @@ import SignIn from "@/pages/sign-in/sign-in.tsx"; // 로그인 페이지
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import './index.css'
 import CreateTopic from "@/pages/topics/create.tsx";
+import { Toaster } from "sonner";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
                     </Route>
                 </Routes>
             </BrowserRouter>
+            <Toaster richColors position="top-center" />
         </ThemeProvider>
     </StrictMode>
 )
