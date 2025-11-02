@@ -70,7 +70,7 @@ export default function SignUp() {
         }
 
         try {
-            const {data, error} = await supabase.auth.signUp({
+            const {data:{user, session}, error} = await supabase.auth.signUp({
                 email: values.email,
                 password: values.password,
             });
@@ -78,15 +78,37 @@ export default function SignUp() {
             // 회원가입 실패
             if (error) {
                 // 에러메시지 - toast ui
+                toast.error(error.message);
                 return;
             }
 
             // 회원가입 성공
-            if (data) {
-                // 성공메시지 - toast ui
-                toast.success("회원가입을 완료하였습니다.");
-                // 로그인 페이지로 리다이렉트
-                navigate("/sign-in");
+            if (user && session) {
+
+                const {data, error} = await supabase
+                    .from('user')
+                    .insert([
+                        {
+                            id: user.id,
+                            service_agreed: serviceAgreed,
+                            privacy_agreed: privacyAgreed,
+                            marketing_agreed: marketingAgreed
+                        },
+                    ])
+                    .select();
+
+                if (data) {
+                    // 성공메시지 - toast ui
+                    toast.success("회원가입을 완료하였습니다.");
+                    // 로그인 페이지로 리다이렉트
+                    navigate("/sign-in");
+                }
+
+                if (error) {
+                    // 에러메시지 - toast ui
+                    toast.error(error.message);
+                    return;
+                }
             }
         } catch(error) {
             console.log(error);
