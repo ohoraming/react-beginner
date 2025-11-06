@@ -12,7 +12,9 @@ import {
 import {zodResolver} from "@hookform/resolvers/zod"
 import {useForm} from "react-hook-form"
 import {z} from "zod"
-import {NavLink} from "react-router";
+import {NavLink, useNavigate} from "react-router";
+import supabase from "@/lib/supabase.ts";
+import {toast} from "sonner";
 
 const formSchema = z.object({
     email: z.email({
@@ -24,6 +26,8 @@ const formSchema = z.object({
 })
 
 export default function SignIn() {
+    const navigate = useNavigate();
+
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -33,8 +37,34 @@ export default function SignIn() {
         },
     });
 
-    const onSubmit = () => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log("로그인 버튼 클릭!");
+
+        try {
+            const {data, error} = await supabase.auth.signInWithPassword({
+                email: values.email,
+                password: values.password,
+            });
+
+            if (error) {
+                toast.error(error.message);
+                return;
+            }
+
+            console.log("data: ", data);
+
+            if (data) {
+                // data는 2개의 객체 데이터를 전달함
+                // 1. session, 2. user
+                toast.success("로그인을 성공하였습니다.");
+                navigate("/");
+            }
+
+        } catch (error) {
+            console.log(error);
+            throw new Error(`${error}`);
+
+        }
     };
 
     return (
@@ -85,7 +115,7 @@ export default function SignIn() {
                                         </div>
                                     </div>
                                     <FormControl>
-                                        <Input placeholder="비밀번호를 입력하세요." {...field} />
+                                        <Input type="password" placeholder="비밀번호를 입력하세요." {...field} />
                                     </FormControl>
                                     <FormMessage className="text-xs" />
                                 </FormItem>
